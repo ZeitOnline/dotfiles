@@ -1,12 +1,13 @@
-{{ range $instance := (secretJSON "kv" "list" "-format=json" "gke/staging/cloudsql") }}
-[{{ $instance }}]
-hostaddr=...
+{{ range $db := (secretJSON "kv" "list" "-format=json" "staging/gcp/cloudsql/databases") }}
+{{ $key := (print "staging/gcp/cloudsql/databases/" $db) }}
+[{{ $db }}]
+hostaddr={{ (vault $key).data.host }}
 port=5432
-user=postgres
-password=...
-dbname=comments
+user={{ (vault $key).data.user }}
+password={{ (vault $key).data.password }}
+dbname={{ (vault $key).data.name }}
 sslmode=verify-ca
-sslcert={{ (env "HOME") }}/.pg_services/{{ $instance }}-client-cert.pem
-sslkey={{ (env "HOME") }}/.pg_services/{{ $instance }}-client-key.pem
-sslrootcert={{ (env "HOME") }}/.pg_services/{{ $instance }}-server-ca.pem
+sslcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client-cert.pem
+sslkey={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client-key.pem
+sslrootcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-server-ca.pem
 {{ end }}
