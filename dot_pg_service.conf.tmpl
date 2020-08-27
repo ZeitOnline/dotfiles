@@ -1,0 +1,12 @@
+{{ range $instance := (secretJSON "kv" "list" "-format=json" "gke/staging/cloudsql") }}
+[{{ $instance }}]
+hostaddr=...
+port=5432
+user=postgres
+password=...
+dbname=comments
+sslmode=verify-ca
+sslcert={{ (env "HOME") }}/.pg_services/{{ $instance }}-client-cert.pem
+sslkey={{ (env "HOME") }}/.pg_services/{{ $instance }}-client-key.pem
+sslrootcert={{ (env "HOME") }}/.pg_services/{{ $instance }}-server-ca.pem
+{{ end }}

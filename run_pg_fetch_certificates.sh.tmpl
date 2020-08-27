@@ -1,0 +1,10 @@
+#!/bin/bash
+
+umask 077
+mkdir -p "$HOME/.pg_services"
+{{ range $instance := (secretJSON "kv" "list" "-format=json" "gke/staging/cloudsql") }}
+{{ $key := (print "gke/staging/cloudsql/" $instance) }}
+echo '{{ (vault $key).data.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $instance }}-client-cert.pem
+echo '{{ (vault $key).data.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $instance }}-client-key.pem
+echo '{{ (vault $key).data.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $instance }}-server-ca.pem
+{{ end }}
