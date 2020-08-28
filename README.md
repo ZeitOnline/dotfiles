@@ -12,7 +12,7 @@ $ chezmoi init https://github.com/ZeitOnline/dotfiles.git
 $ chezmoi apply
 ```
 
-Für Linux müsst ihr Vault und chezmoi natürlich anders installieren, aber ansonsten sollte euch das Zugriff auf alle für euch im Vault freigegebenen Datenbank Credendials geben:
+Für Linux müsst ihr Vault und chezmoi über die offiziellen Quellen (https://www.vaultproject.io/ / https://www.chezmoi.io/) installieren, aber ansonsten sollte euch das Zugriff auf alle für euch im Vault freigegebenen Datenbank Credendials geben:
 
 ```shell
 $ grep '^\[' .pg_service.conf
