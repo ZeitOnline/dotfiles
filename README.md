@@ -48,3 +48,9 @@ Type "help" for help.
 quiz=> \q
 ```
 
+Nach späteren Aktualisierungen im Terraform, also wenn neue Projekte und Datenbanken hinzukommen, umziehen oder sich die Credendials ändern, lassen sie die [Service Definitionen](https://www.postgresql.org/docs/12/libpq-pgservice.html) leicht anpassen:
+
+```shell
+$ chezmoi update
+```
+
