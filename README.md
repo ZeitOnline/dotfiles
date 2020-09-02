@@ -9,7 +9,7 @@ $ export VAULT_ADDR="https://vault.ops.staging.zeit.de/"
 $ brew install vault chezmoi
 $ vault login -method=oidc role=zon-sudo
 $ chezmoi init https://github.com/ZeitOnline/dotfiles.git
-$ chezmoi apply
+$ chezmoi apply  # ggf. 2x ausführen, falls "kv list -format=json cloudsql/databases: fork/exec : no such file or directory" Fehler kommt
 ```
 
 Für Linux müsst ihr Vault und chezmoi über die offiziellen Quellen (https://www.vaultproject.io/ / https://www.chezmoi.io/) installieren, aber ansonsten sollte euch das Zugriff auf alle für euch im Vault freigegebenen Datenbank Credendials geben:
