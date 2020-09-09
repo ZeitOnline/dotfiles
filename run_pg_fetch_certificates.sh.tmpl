@@ -1,6 +1,5 @@
 #!/bin/bash
 
-exit 0
 umask 077
 mkdir -p "$HOME/.pg_services"
 {{ range $instance := (secretJSON "kv" "list" "-format=json" "cloudsql/instances") }}
