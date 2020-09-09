@@ -8,7 +8,7 @@ user={{ (vault $key).data.user }}
 password={{ (vault $key).data.password }}
 dbname={{ (vault $key).data.name }}
 sslmode=verify-ca
-sslcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client-cert.pem
-sslkey={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client-key.pem
+sslcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client.crt
+sslkey={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client.key
 sslrootcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-server-ca.pem
 {{ end }}

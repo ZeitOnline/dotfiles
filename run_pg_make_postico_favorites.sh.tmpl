@@ -1,0 +1,29 @@
+#!/bin/bash
+
+umask 077
+mkdir -p "$HOME/.pg_services"
+{{ range $db := (secretJSON "kv" "list" "-format=json" "cloudsql/databases") }}
+{{ $key := (print "cloudsql/databases/" $db) }}
+{{ $instance := (print "cloudsql/instances/" (vault $key).data.instance) }}
+( cat <<'PGFAV'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>type</key>
+    <string>at.eggerapps.PG-Commander.favorite</string>
+    <key>nickname</key>
+    <string>{{ (vault $key).data.name }} ({{ (vault $instance).data.environment }})</string>
+    <key>host</key>
+    <string>{{ (vault $key).data.host }}</string>
+    <key>database</key>
+    <string>{{ (vault $key).data.name }}</string>
+    <key>user</key>
+    <string>{{ (vault $key).data.user }}</string>
+    <key>password</key>
+    <string>{{ (vault $key).data.password }}</string>
+</dict>
+</plist>
+PGFAV
+) > $HOME/.pg_services/{{ (vault $key).data.name }}-{{ (vault $instance).data.environment }}.pgfav
+{{ end }}
