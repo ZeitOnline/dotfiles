@@ -15,7 +15,7 @@ mkdir -p "$HOME/.pg_services"
     <key>nickname</key>
     <string>{{ (vault $key).data.name }} ({{ (vault $instance).data.environment }})</string>
     <key>host</key>
-    <string>{{ (vault $key).data.host }}</string>
+    <string>{{ (vault $instance).data.private_ip }}</string>
     <key>database</key>
     <string>{{ (vault $key).data.name }}</string>
     <key>user</key>

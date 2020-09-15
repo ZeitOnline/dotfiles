@@ -2,7 +2,7 @@
 {{ $key := (print "cloudsql/databases/" $db) }}
 {{ $instance := (print "cloudsql/instances/" (vault $key).data.instance) }}
 [{{ (vault $key).data.name }}-{{ (vault $instance).data.environment }}]
-hostaddr={{ (vault $key).data.host }}
+hostaddr={{ (vault $instance).data.private_ip }}
 port=5432
 user={{ (vault $key).data.user }}
 password={{ (vault $key).data.password }}
