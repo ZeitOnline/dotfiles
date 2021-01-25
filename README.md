@@ -5,9 +5,9 @@ Dieses Repository enthält aktuell ein Experiment zur Integration von [Vault](ht
 Genau das geht jetzt auch schon — ausprobieren läßt es sich so:
 
 ```shell
-$ export VAULT_ADDR="https://vault.ops.staging.zeit.de/"
+$ export VAULT_ADDR="https://vault.ops.zeit.de/"
 $ brew install vault chezmoi
-$ vault login -method=oidc role=zon-sudo
+$ vault login -method=oidc
 $ chezmoi init https://github.com/ZeitOnline/dotfiles.git
 $ chezmoi apply  # ggf. 2x ausführen, falls "kv list -format=json cloudsql/databases: fork/exec : no such file or directory" Fehler kommt
 ```
