@@ -8,7 +8,7 @@ Genau das geht jetzt auch schon — ausprobieren läßt es sich so:
 $ export VAULT_ADDR="https://vault.ops.zeit.de/"
 $ brew install vault chezmoi
 $ vault login -method=oidc
-$ chezmoi init https://github.com/ZeitOnline/dotfiles.git
+$ chezmoi init git@github.com:ZeitOnline/dotfiles.git
 $ chezmoi apply  # ggf. 2x ausführen, falls "kv list -format=json cloudsql/databases: fork/exec : no such file or directory" Fehler kommt
 ```
 
