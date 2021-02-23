@@ -1,44 +1,76 @@
 Dotfiles für alle
 -----------------
 
-Dieses Repository enthält aktuell ein Experiment zur Integration von `Vault <https://www.vaultproject.io/>`_ mit `chezmoi <https://www.chezmoi.io>`_, einem "dotfile manager". Die Idee ist, via Terraform erzeugte und in Vault gespeicherte Credentials automatisiert auszulesen, um so zum Beispiel den Zugriff auf unsere Datenbanken zu ermöglichen.
+Dieses Repository enthält aktuell ein Experiment zur Integration von `Vault <https://www.vaultproject.io/>`_ mit `chezmoi <https://www.chezmoi.io>`_, einem "dotfile manager". Die Idee ist, via Terraform erzeugte und in Vault gespeicherte Credentials automatisiert auszulesen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE Cluster zu ermöglichen.
 
-Genau das geht jetzt auch schon — ausprobieren läßt es sich so:
+
+Installation unter macOS
+========================
+
+.. code-block:: shell
+
+    $ brew install vault chezmoi
+
+
+Installation unter debian/ubuntu
+================================
+
+Leider nur als snaps allgemein verfügbar:
+
+.. code-block:: shell
+
+    $ sudo snap install vault chezmoi
+
+
+Initialisierung
+===============
 
 .. code-block:: shell
 
     $ export VAULT_ADDR="https://vault.ops.zeit.de/"
-    $ brew install vault chezmoi
     $ vault login -method=oidc
-    $ chezmoi init git@github.com:ZeitOnline/dotfiles.git
-    $ chezmoi apply  # ggf. 2x ausführen, falls "kv list -format=json cloudsql/databases: fork/exec : no such file or directory" Fehler kommt
 
-Für Linux müsst ihr Vault und chezmoi über die offiziellen Quellen (https://www.vaultproject.io/ / https://www.chezmoi.io/) installieren, aber ansonsten sollte euch das Zugriff auf alle für euch im Vault freigegebenen Datenbank Credendials geben:
+Nicht erschrecken: der Vault Login läuft über den Browser. Im Anmeldeformular dann mit den eigenen AD credentials anmelden.
+Das Fenster kann anschließend geschlossen werden und es geht weiter im Terminal:
+
+.. code-block:: shell
+
+    $ chezmoi init git@github.com:ZeitOnline/dotfiles.git
+    $ chezmoi apply
+
+
+.. note:: ``chezmoi apply`` ggf. 2x ausführen, falls die Fehlermeldung ``kv list -format=json cloudsql/databases: fork/exec : no such file or directory`` erscheint.
+
+
+Laufende Aktualisierungen
+=========================
+
+Um Updates aufzuspielen reicht dann künftig folgendes::
+
+.. code-block:: shell
+    $ vault login -method=oidc
+    $ chezmoi update
+
+
+Was im Preis mit inbegriffen ist
+================================
+
+Aktuell wird vor allem folgendes verwaltet: Postgres Zugriff, GKE Cluster Zugriff sowie ein paar sinnvolle, allgemeingültige Einstellungen für die fish shell.
+
+
+Postgres Services
++++++++++++++++++
+
+Die `Service Definitionen <https://www.postgresql.org/docs/12/libpq-pgservice.html>`_ für unsere CloudSQL Datenbanken erlauben den SSL verschlüsselten Zugriff auf alle Datenbanken (Obacht! Inklusive Production!).
+
+Welche Datenbanken konfiguriert sind läßt sich so herausfinden:
 
 .. code-block:: shell
     $ grep '^\[' .pg_service.conf
-    [alerta-production]
-    [bitpoll-production]
-    [bitpoll-staging]
-    [bitpoll_devel-staging]
-    [comments-production]
-    [comments-staging]
-    [digitalabo-staging]
-    [keycloak-staging]
-    [kickerticker-production]
-    [kickerticker-staging]
-    [premium-media-staging]
-    [quiz-devel-staging]
-    [quiz-production]
-    [quiz-staging]
-    [sharebert-staging]
-    [sudoku-production]
-    [sudoku-staging]
-    [umdieecke-production]
-    [umdieecke-staging]
-    [zg-corona-production]
-    [zg-hasura-staging]
-    ~ $ psql service=quiz-production
+
+Deren Namen kann man dann bei gängigen Postgresl Clients verwenden, bei ``psql`` z.B.::
+
+    $ psql service=quiz-production
     Null display is "(null)".
     Line style is unicode.
     Border style is 2.
@@ -48,8 +80,10 @@ Für Linux müsst ihr Vault und chezmoi über die offiziellen Quellen (https://w
 
     quiz=> \q
 
-Nach späteren Aktualisierungen im Terraform, also wenn neue Projekte und Datenbanken hinzukommen, umziehen oder sich die Credendials ändern, lassen sie die `Service Definitionen <https://www.postgresql.org/docs/12/libpq-pgservice.html>`_ leicht anpassen:
 
-.. code-block:: shell
-    $ chezmoi update
+GKE Clusterzugriff
+++++++++++++++++++
 
+Es werden lediglich die notwendigen ``gcloud`` Befehle ausgefuehrt (``gcloud`` muss installiert sein).
+Für fish Benutzer wird zudem die notwendige Einstellung der ``KUBECONFIG`` Umgebungsvariable vorgenommen.
+Der Effekt ist, dass in den  diversen ``k8s/(staging|production)`` Verzeichnissen ``kubectl`` und ``k9s`` funktionieren, sowie die ``bin/deploy`` Skripte, die k8s verwenden.
