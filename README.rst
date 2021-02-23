@@ -1,7 +1,11 @@
 Dotfiles für alle
 -----------------
 
-Dieses Repository enthält aktuell ein Experiment zur Integration von `Vault <https://www.vaultproject.io/>`_ mit `chezmoi <https://www.chezmoi.io>`_, einem "dotfile manager". Die Idee ist, via Terraform erzeugte und in Vault gespeicherte Credentials automatisiert auszulesen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE Cluster zu ermöglichen.
+Dieses Repository enthält eine Integration von `Vault <https://www.vaultproject.io/>`_ mit `chezmoi <https://www.chezmoi.io>`_, einem "dotfile manager".
+Die Idee ist, für alle Entwickler einheitliche Credentials und Konfigurationen zu erzeugen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE Cluster zu ermöglichen.
+Dazu werden zum einen in Vault gespeicherte Credentials automatisiert ausgelesen und/oder Skripte wie ``gcloud`` ausgeführt.
+
+Darüber hinaus werden einige (wenige) Konfigurationen vorgenommen, die Konventionen und best practices abbilden. Dabei wird aber nur so wenig wie möglich konfiguriert, um nicht die Vorlieben der Mitarbeiter unnötig zu überschreiben. Hier gilt: weniger ist mehr :)
 
 
 Installation unter macOS
@@ -48,6 +52,7 @@ Laufende Aktualisierungen
 Um Updates aufzuspielen reicht dann künftig folgendes::
 
 .. code-block:: shell
+
     $ vault login -method=oidc
     $ chezmoi update
 
@@ -66,6 +71,7 @@ Die `Service Definitionen <https://www.postgresql.org/docs/12/libpq-pgservice.ht
 Welche Datenbanken konfiguriert sind läßt sich so herausfinden:
 
 .. code-block:: shell
+
     $ grep '^\[' .pg_service.conf
 
 Deren Namen kann man dann bei gängigen Postgresl Clients verwenden, bei ``psql`` z.B.::
@@ -85,5 +91,11 @@ GKE Clusterzugriff
 ++++++++++++++++++
 
 Es werden lediglich die notwendigen ``gcloud`` Befehle ausgefuehrt (``gcloud`` muss installiert sein).
-Für fish Benutzer wird zudem die notwendige Einstellung der ``KUBECONFIG`` Umgebungsvariable vorgenommen.
 Der Effekt ist, dass in den  diversen ``k8s/(staging|production)`` Verzeichnissen ``kubectl`` und ``k9s`` funktionieren, sowie die ``bin/deploy`` Skripte, die k8s verwenden.
+
+
+fish config
++++++++++++
+
+Für fish Benutzer wird zudem die notwendige Einstellung der ``VAULT_ADDR`` und ``KUBECONFIG`` Umgebungsvariablen vorgenommen.
+Diese werden in einer dedizierten ``conf.d/zon.fish`` Datei verwaltet, um nicht die komplette fish config zu "kapern".
