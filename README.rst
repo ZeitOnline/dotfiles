@@ -49,7 +49,7 @@ Das Fenster kann anschließend geschlossen werden und es geht weiter im Terminal
 Laufende Aktualisierungen
 =========================
 
-Um Updates aufzuspielen reicht dann künftig folgendes::
+Um Updates aufzuspielen reicht dann künftig folgendes:
 
 .. code-block:: shell
 
