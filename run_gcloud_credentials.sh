@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ ! $(gcloud config get-value account &> /dev/null) ]]
+then
+  gcloud auth login
+fi
+
 # unset KUBECONFIG because otherwise config would be generated in local ``kube.config``
 # file:
 unset KUBECONFIG
