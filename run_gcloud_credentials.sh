@@ -15,4 +15,7 @@ gcloud container clusters get-credentials devel --zone europe-west3-a --project 
 gcloud container clusters get-credentials zon-misc-prod-1 --zone europe-west3-a --project zeitonline-gke-misc-prod
 
 # Fetch GCP Application Default Credentials like Terraform uses 'em
-gcloud auth application-default login
+if [[ `gcloud auth application-default print-access-token &> /dev/null` ]]
+then
+  gcloud auth application-default login --billing-project=zeitonline-210413
+fi
