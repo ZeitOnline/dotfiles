@@ -8,3 +8,6 @@ gcloud container clusters get-credentials production --zone europe-west3-a --pro
 gcloud container clusters get-credentials staging --zone europe-west3-a --project zeitonline-main
 gcloud container clusters get-credentials devel --zone europe-west3-a --project zeitonline-main
 gcloud container clusters get-credentials zon-misc-prod-1 --zone europe-west3-a --project zeitonline-gke-misc-prod
+
+# Fetch GCP Application Default Credentials like Terraform uses 'em
+gcloud auth application-default login
