@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! $(gcloud config get-value account &> /dev/null) ]]
+if ! gcloud auth print-access-token &> /dev/null
 then
   gcloud auth login
 fi
@@ -15,7 +15,7 @@ gcloud container clusters get-credentials devel --zone europe-west3-a --project 
 gcloud container clusters get-credentials zon-misc-prod-1 --zone europe-west3-a --project zeitonline-gke-misc-prod
 
 # Fetch GCP Application Default Credentials like Terraform uses 'em
-if [[ `gcloud auth application-default print-access-token &> /dev/null` ]]
+if ! gcloud auth application-default print-access-token &> /dev/null
 then
   gcloud auth application-default login --billing-project=zeitonline-210413
 fi
