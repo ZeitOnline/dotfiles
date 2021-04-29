@@ -1,1 +1,1 @@
-genericSecret.command = "vault"
+secret.command = "vault"
