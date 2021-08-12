@@ -69,6 +69,8 @@ Am einfachsten ist dies mit den folgenden beiden Aliasen umzusetzen:
     alias chezzon='chezmoi --source ~/.chezzon/repo --config ~/.chezzon/chezmoi.toml'
     alias chezzon_init='chezmoi init git@github.com:ZeitOnline/dotfiles.git --source ~/.chezzon/repo --config-path ~/.chezzon/chezmoi.toml'
 
+.. note:: Die beiden Aliase lassen sich nicht kombinieren, da ``chezmoi init`` das Flag ``--config-path`` benötigt, das nicht identisch mit ``--config`` ist, welches von allen anderen ``chezmoi`` Kommandos genutzt wird.
+
 Die Initialisierung erfolgt dann mit ``chezzon-init``, für alles weitere kann ``chezzon`` wie sonst ``chezmoi`` genutzt werden:
 
 .. code-block:: shell
