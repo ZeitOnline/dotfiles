@@ -57,6 +57,28 @@ Um Updates aufzuspielen reicht dann künftig folgendes:
     $ chezmoi update
 
 
+chezmoi für eigene dotfiles und zon dotfiles
+============================================
+
+Falls chezmoi nicht nur für die ZON dotfiles, sondern auch für seperate (private) dotfiles genutzt werden soll, empfiehlt es sich sowohl die config als auch das die dotfiles selbst in einen non-default Ordner zu legen.
+
+Am einfachsten ist dies mit den folgenden beiden Aliasen umzusetzen:
+
+.. code-block:: shell
+
+    alias chezzon='chezmoi --source ~/.chezzon/repo --config ~/.chezzon/chezmoi.toml'
+    alias chezzon_init='chezmoi init git@github.com:ZeitOnline/dotfiles.git --source ~/.chezzon/repo --config-path ~/.chezzon/chezmoi.toml'
+
+Die Initialisierung erfolgt dann mit ``chezzon-init``, für alles weitere kann ``chezzon`` wie sonst ``chezmoi`` genutzt werden:
+
+.. code-block:: shell
+
+    $ chezzon_init
+    $ chezzon apply
+
+Damit wird das zon-dotfiles repo in ``~/.chezzon/repo`` initialisiert, das config file landet in ``~/.chezzon/chezmoi.toml``.
+
+
 Was im Preis mit inbegriffen ist
 ================================
 
