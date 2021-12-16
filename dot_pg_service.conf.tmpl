@@ -1,13 +1,8 @@
 {{ range $db := (secretJSON "kv" "list" "-format=json" "cloudsql/databases") }}
 {{- $key := (print "cloudsql/databases/" $db) }}
 {{- $instance := (print "cloudsql/instances/" (vault $key).data.instance) }}
-{{- $name := (print (vault $key).data.name "-" (vault $instance).data.environment) }}
-[{{ $name }}]
-{{- if (eq $name "comments-production") }}
-hostaddr=35.246.160.111
-{{- else }}
+[{{ (vault $key).data.name "-" (vault $instance).data.environment }}]
 hostaddr={{ (vault $instance).data.private_ip }}
-{{- end }}
 port=5432
 user={{ (vault $key).data.user }}
 password={{ (vault $key).data.password }}
