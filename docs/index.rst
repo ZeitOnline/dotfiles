@@ -34,7 +34,7 @@ Initialisierung
     $ export VAULT_ADDR="https://vault.ops.zeit.de/"
     $ vault login -method=oidc
 
-Nicht erschrecken: der Vault Login läuft über den Browser. Im Anmeldeformular dann mit den eigenen AD credentials anmelden.
+Nicht erschrecken: der Vault Login läuft über den Browser. Im Anmeldeformular dann mit den eigenen AD credentials anmelden (``nachname`` und *nicht* ``vnachname``).
 Das Fenster kann anschließend geschlossen werden und es geht weiter im Terminal:
 
 .. code-block:: shell
