@@ -2,9 +2,13 @@
 
 umask 077
 mkdir -p "$HOME/.pg_services"
-{{ range $db := (secretJSON "kv" "list" "-format=json" "cloudsql/databases") }}
-{{ $key := (print "cloudsql/databases/" $db) }}
-{{ $instance := (print "cloudsql/instances/" (vault $key).data.instance) }}
+{{ range $project := list "zeit-interactive" "zeitonline-gke-misc-prod" "zeitonline-main" }}
+{{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
+{{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
+{{- $databases := (print $instances $instance "/databases/") }}
+{{ range $database := (secretJSON "kv" "list" "-format=json" $databases) }}
+{{- $inst := (print $instances $instance "instance-credentials" ) }}
+{{- $key := (print $databases $database ) }}
 ( cat <<'PGFAV'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -13,9 +17,9 @@ mkdir -p "$HOME/.pg_services"
     <key>type</key>
     <string>at.eggerapps.PG-Commander.favorite</string>
     <key>nickname</key>
-    <string>{{ (vault $key).data.name }} ({{ (vault $instance).data.environment }})</string>
+    <string>{{ (vault $key).data.name }} ({{ (vault $inst).data.environment }})</string>
     <key>host</key>
-    <string>{{ (vault $instance).data.private_ip }}</string>
+    <string>{{ (vault $inst).data.private_ip }}</string>
     <key>database</key>
     <string>{{ (vault $key).data.name }}</string>
     <key>user</key>
@@ -25,5 +29,7 @@ mkdir -p "$HOME/.pg_services"
 </dict>
 </plist>
 PGFAV
-) > $HOME/.pg_services/{{ (vault $key).data.name }}-{{ (vault $instance).data.environment }}.pgfav
+) > $HOME/.pg_services/{{ (vault $key).data.name }}-{{ (vault $inst).data.environment }}.pgfav
+{{ end }}
+{{ end }}
 {{ end }}
