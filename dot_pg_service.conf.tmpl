@@ -1,14 +1,20 @@
-{{ range $db := (secretJSON "kv" "list" "-format=json" "cloudsql/databases") }}
-{{- $key := (print "cloudsql/databases/" $db) }}
-{{- $instance := (print "cloudsql/instances/" (vault $key).data.instance) }}
-[{{ (vault $key).data.name }}-{{ (vault $instance).data.environment }}]
-hostaddr={{ (vault $instance).data.private_ip }}
+{{ range $project := list "zeit-interactive" "zeitonline-gke-misc-prod" "zeitonline-main" }}
+{{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
+{{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
+{{- $databases := (print $instances $instance "/databases/") }}
+{{ range $database := (secretJSON "kv" "list" "-format=json" $databases) }}
+{{- $inst := (print $instances $instance "instance-credentials" ) }}
+{{- $key := (print $databases $database ) }}
+[{{ (vault $key).data.name }}-{{ (vault $inst).data.environment }}]
+hostaddr={{ (vault $inst).data.private_ip }}
 port=5432
 user={{ (vault $key).data.user }}
 password={{ (vault $key).data.password }}
 dbname={{ (vault $key).data.name }}
 sslmode=verify-ca
-sslcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client.crt
-sslkey={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-client.key
-sslrootcert={{ (env "HOME") }}/.pg_services/{{ (vault $key).data.instance }}-server-ca.pem
+sslcert={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-client.crt
+sslkey={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-client.key
+sslrootcert={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-server-ca.pem
+{{ end }}
+{{ end }}
 {{ end }}

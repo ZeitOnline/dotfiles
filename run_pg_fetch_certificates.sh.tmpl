@@ -2,9 +2,13 @@
 
 umask 077
 mkdir -p "$HOME/.pg_services"
-{{ range $instance := (secretJSON "kv" "list" "-format=json" "cloudsql/instances") }}
-{{ $key := (print "cloudsql/instances/" $instance) }}
-echo '{{ (vault $key).data.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $instance }}-client.crt
-echo '{{ (vault $key).data.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $instance }}-client.key
-echo '{{ (vault $key).data.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $instance }}-server-ca.pem
+{{ range $project := list "zeit-interactive" "zeitonline-gke-misc-prod" "zeitonline-main" }}
+{{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
+{{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
+{{ $base := (print $project "-" (trimSuffix "/" $instance)) }}
+{{ $key := (print $instances $instance "instance-credentials" ) }}
+echo '{{ (vault $key).data.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-client.crt
+echo '{{ (vault $key).data.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $base }}-client.key
+echo '{{ (vault $key).data.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-server-ca.pem
+{{ end }}
 {{ end }}
