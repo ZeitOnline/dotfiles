@@ -5,6 +5,8 @@ mkdir -p "$HOME/.pg_services"
 {{ range $project := list "zeit-interactive" "zeitonline-gke-misc-prod" "zeitonline-main" }}
 {{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
 {{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
+{{ $instance_keys := (secretJSON "kv" "list" "-format=json" (print $instances $instance)) }}
+{{ if has "databases/" $instance_keys }}
 {{- $databases := (print $instances $instance "/databases/") }}
 {{ range $database := (secretJSON "kv" "list" "-format=json" $databases) }}
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
@@ -30,6 +32,7 @@ mkdir -p "$HOME/.pg_services"
 </plist>
 PGFAV
 ) > $HOME/.pg_services/{{ (vault $key).data.name }}-{{ (vault $inst).data.environment }}.pgfav
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}
