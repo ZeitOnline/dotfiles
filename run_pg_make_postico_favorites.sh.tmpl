@@ -2,7 +2,7 @@
 
 umask 077
 mkdir -p "$HOME/.pg_services"
-{{ range $project := list "zeit-interactive" "zeitonline-gke-misc-prod" "zeitonline-main" }}
+{{ range $project := list "zeitonline-gke-misc-prod" "zeitonline-main" }}
 {{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
 {{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
 {{ $instance_keys := (secretJSON "kv" "list" "-format=json" (print $instances $instance)) }}
