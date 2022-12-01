@@ -21,7 +21,7 @@ mkdir -p "$HOME/.pg_services"
     <key>nickname</key>
     <string>{{ (vault $key).data.name }} ({{ (vault $inst).data.environment }})</string>
     <key>host</key>
-    <string>{{ (vault $key).data.instance }}-internal.cloudsql.zeitonline-main.gcp.zon.zeit.de</string>
+    <string>{{ (vault $inst).data.private_dns }}</string>
     <key>database</key>
     <string>{{ (vault $key).data.name }}</string>
     <key>user</key>
