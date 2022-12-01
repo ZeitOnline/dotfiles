@@ -8,7 +8,7 @@
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
 {{- $key := (print $databases $database ) }}
 [{{ (vault $key).data.name }}-{{ (vault $inst).data.environment }}]
-hostaddr={{ (vault $inst).data.private_ip }}
+host={{ (vault $key).data.instance }}-internal.cloudsql.zeitonline-main.gcp.zon.zeit.de
 port=5432
 user={{ (vault $key).data.user }}
 password={{ (vault $key).data.password }}
