@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "dependencyDashboard": true,
+
+  "enabledManagers": ["github-actions", "regex"],
+
+  "schedule": [
+    "every weekend"
+  ],
+
+  "regexManagers": [
+    {
+      "description": "Update commented tool-versions",
+      "fileMatch": [
+        "(^|/|\\.)dot_tool-vertions$"
+      ],
+      "matchStrings": [
+        "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.+?))?\\s(?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "restrict kubectl updates",
+      "matchManagers": ["regex"],
+      "matchPackageNames": ["kubernetes/kubernetes"],
+      "allowedVersions": "<=1.23"
+    }
+  ]
+}
