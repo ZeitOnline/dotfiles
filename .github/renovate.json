@@ -13,7 +13,7 @@
     {
       "description": "Update commented tool-versions",
       "fileMatch": [
-        "(^|/|\\.)dot_tool-vertions$"
+        "(^|/|\\.)dot_tool-versions$"
       ],
       "matchStrings": [
         "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.+?))?\\s(?:ENV|ARG) .*?_VERSION=(?<currentValue>.*)\\s"
