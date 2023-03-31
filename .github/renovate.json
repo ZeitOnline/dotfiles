@@ -24,6 +24,12 @@
   ],
   "packageRules": [
     {
+      "description": "schedule regexManager for maintenance day",
+      "matchManagers": ["regex"],
+      "schedule": ["before 5am on the first day of the month"],
+      "addLabels": ["maintenance-day"]
+    },
+    {
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchPackageNames": ["kubernetes/kubernetes"],
