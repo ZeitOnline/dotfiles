@@ -33,7 +33,7 @@
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchPackageNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "<=1.23"
+      "allowedVersions": "<=1.24"
     }
   ]
 }
