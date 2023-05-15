@@ -1,0 +1,9 @@
+#!/bin/bash
+
+name="$( git symbolic-ref --short HEAD )"
+branches="$( git config commit.prefixBranches )"
+
+if [[ $branches && $name =~ $branches ]]; then
+    prefix=${BASH_REMATCH}
+    sed -i~ -e "1s,^\($prefix: \)*,$prefix: ," $1
+fi
