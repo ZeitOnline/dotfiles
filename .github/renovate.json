@@ -3,36 +3,30 @@
 
   "dependencyDashboard": true,
 
-  "enabledManagers": ["github-actions", "regex"],
+  "enabledManagers": [
+    "github-actions",
+    "asdf"
+  ],
 
   "schedule": [
     "every weekend"
   ],
 
-  "regexManagers": [
-    {
-      "description": "Update commented tool-versions",
-      "fileMatch": [
-        "(^|/|\\.)dot_tool-versions$"
-      ],
-      "matchStrings": [
-        "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.+?))?\\s(?:\\S)+ (?<currentValue>.*)\\s"
-      ],
-      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
-      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}"
-    }
-  ],
+  "asdf": {
+    "fileMatch": ["(^|/|\\.)dot_tool-versions$"]
+  },
+
   "packageRules": [
     {
-      "description": "schedule regexManager for maintenance day",
-      "matchManagers": ["regex"],
+      "description": "schedule asdf manager for maintenance day",
+      "matchManagers": ["asdf"],
       "schedule": ["before 5am on the first day of the month"],
       "addLabels": ["maintenance-day"]
     },
     {
       "description": "restrict kubectl updates",
-      "matchManagers": ["regex"],
-      "matchPackageNames": ["kubernetes/kubernetes"],
+      "matchManagers": ["asdf"],
+      "matchPackageNames": ["kubectl"],
       "allowedVersions": "<=1.24"
     }
   ]

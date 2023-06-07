@@ -1,10 +1,5 @@
-# renovate: datasource=github-tags depName=kubernetes/kubernetes
 kubectl 1.24.13
-# renovate: datasource=github-releases depName=hashicorp/terraform
 terraform 1.4.6
-# renovate: datasource=github-releases depName=gruntwork-io/terragrunt
 terragrunt 0.46.2
-# renovate: datasource=github-releases depName=fluxcd/flux2
 flux2 0.40.2
-# renovate: datasource=github-releases depName=kubernetes-sigs/kustomize extractVersion=^kustomize\/v(?<version>.+)$
 kustomize 5.0.1
