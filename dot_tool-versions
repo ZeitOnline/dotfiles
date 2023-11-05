@@ -1,6 +1,6 @@
 kubectl 1.24.13
 terraform 1.5.7
-terragrunt 0.50.13
+terragrunt 0.53.2
 flux2 2.1.0
 kustomize 5.0.1
 helm 3.12.3
