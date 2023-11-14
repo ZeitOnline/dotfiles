@@ -28,6 +28,12 @@
       "matchManagers": ["asdf"],
       "matchPackageNames": ["kubectl"],
       "allowedVersions": "<=1.24"
+    },
+    {
+      "description": "Add label for terraform/grunt binary",
+      "matchManagers": ["regex"],
+      "matchPackageNames": ["hashicorp/terraform", "gruntwork-io/terragrunt"],
+      "addLabels": ["terraform-bin"]
     }
   ]
 }
