@@ -26,13 +26,13 @@
     {
       "description": "restrict kubectl updates",
       "matchManagers": ["asdf"],
-      "matchPackageNames": ["kubectl"],
+      "matchDepNames": ["kubectl"],
       "allowedVersions": "<=1.26"
     },
     {
       "description": "Add label for terraform/grunt binary",
       "matchManagers": ["regex"],
-      "matchPackageNames": ["hashicorp/terraform", "gruntwork-io/terragrunt"],
+      "matchDepNames": ["hashicorp/terraform", "gruntwork-io/terragrunt"],
       "addLabels": ["terraform-bin"]
     }
   ]
