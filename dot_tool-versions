@@ -1,4 +1,4 @@
-kubectl 1.26.12
+kubectl 1.26.15
 terraform 1.6.3
 terragrunt 0.53.2
 flux2 2.1.0
