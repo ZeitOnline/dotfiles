@@ -1,5 +1,5 @@
 kubectl 1.26.12
-terraform 1.6.3
+terraform 1.8.2
 terragrunt 0.56.5
 flux2 2.1.0
 kustomize 5.0.1
