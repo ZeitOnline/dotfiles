@@ -27,7 +27,7 @@
       "description": "restrict kubectl updates",
       "matchManagers": ["asdf"],
       "matchDepNames": ["kubectl"],
-      "allowedVersions": "<=1.26"
+      "allowedVersions": "<=1.27"
     },
     {
       "description": "Add label for terraform/grunt binary",
