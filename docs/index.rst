@@ -13,8 +13,13 @@ Installation unter macOS
 
 .. code-block:: shell
 
-    $ brew install vault chezmoi
+    $ brew install vault chezmoi mise
 
+Nach Installation von mise, `activate mise <https://mise.jdx.dev/getting-started.html#_2a-activate-mise>`_ beachten.
+Pfad entsprechend der Pfad zum brew Verzeichnis ``/opt/homebrew/bin/``.
+
+``mise`` ist ein tool version manager.
+Es kann tools wie asdf, nvm, pyenv, rbenv, etc. ersetzen.
 
 Installation unter debian/ubuntu
 ================================
@@ -41,6 +46,7 @@ Das Fenster kann anschließend geschlossen werden und es geht weiter im Terminal
 
     $ chezmoi init git@github.com:ZeitOnline/dotfiles.git
     $ chezmoi apply
+    $ mise install
 
 
 .. note:: ``chezmoi apply`` ggf. 2x ausführen, falls die Fehlermeldung ``kv list -format=json cloudsql/databases: fork/exec : no such file or directory`` erscheint.
@@ -55,6 +61,7 @@ Um Updates aufzuspielen reicht dann künftig folgendes:
 
     $ vault login -method=oidc
     $ chezmoi update
+    $ mise install
 
 
 chezmoi für eigene dotfiles und zon dotfiles
@@ -77,6 +84,7 @@ Die Initialisierung erfolgt dann mit ``chezzon-init``, für alles weitere kann `
 
     $ chezzon_init
     $ chezzon apply
+    $ mise install
 
 Damit wird das zon-dotfiles repo in ``~/.chezzon/repo`` initialisiert, das config file landet in ``~/.chezzon/chezmoi.toml``.
 
@@ -84,7 +92,7 @@ Damit wird das zon-dotfiles repo in ``~/.chezzon/repo`` initialisiert, das confi
 Was im Preis mit inbegriffen ist
 ================================
 
-Aktuell wird vor allem folgendes verwaltet: Postgres Zugriff, GKE Cluster Zugriff sowie ein paar sinnvolle, allgemeingültige Einstellungen für die fish shell.
+Aktuell wird vor allem folgendes verwaltet: Postgres Zugriff, GKE Cluster Zugriff, Tools durch `mise`, sowie ein paar sinnvolle, allgemeingültige Einstellungen für die fish shell.
 
 
 Postgres Services
