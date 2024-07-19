@@ -1,4 +1,4 @@
-kubectl 1.27.16
+kubectl 1.28.12
 terragrunt 0.59.6
 flux2 2.3.0
 kustomize 5.4.2
