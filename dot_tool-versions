@@ -3,4 +3,4 @@ terragrunt 0.59.6
 flux2 2.3.0
 kustomize 5.4.2
 helm 3.12.3
-opentofu 1.7.0
+opentofu 1.8.0
