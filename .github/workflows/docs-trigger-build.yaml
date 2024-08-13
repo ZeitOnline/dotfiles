@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Trigger Repository Dispatch in docs
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@bf47d102fdb849e755b0b0023ea3e81a44b6f570 # v2
         with:
           token: ${{ secrets.PRIVATE_REPO_ACCESS_PAT }}
           repository: ZeitOnline/docs
