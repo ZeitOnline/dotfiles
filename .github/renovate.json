@@ -5,29 +5,39 @@
 
   "enabledManagers": [
     "github-actions",
-    "asdf"
+    "regex"
   ],
 
   "schedule": [
     "every weekend"
   ],
 
-  "asdf": {
-    "fileMatch": ["(^|/|\\.)dot_tool-versions$"]
-  },
+  "regexManagers": [
+    {
+      "description": "Update commented tool-versions",
+      "fileMatch": [
+        "(^|/|\\.)dot_tool-versions$"
+      ],
+      "matchStrings": [
+        "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.+?))?\\s(?:\\S)+ (?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}"
+    }
+  ],
 
   "packageRules": [
     {
       "description": "schedule asdf manager for maintenance day",
-      "matchManagers": ["asdf"],
+      "matchManagers": ["regex"],
       "schedule": ["before 5am on the first day of the month"],
       "addLabels": ["maintenance-day"]
     },
     {
       "description": "restrict kubectl updates",
-      "matchManagers": ["asdf"],
+      "matchManagers": ["regex"],
       "matchDepNames": ["kubectl"],
-      "allowedVersions": "<=1.28"
+      "allowedVersions": "<=1.29"
     },
     {
       "description": "Add label for terraform/grunt binary",
