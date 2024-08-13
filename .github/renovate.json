@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
   "dependencyDashboard": true,
+  "prHourlyLimit": 10,
+  "prConcurrentLimit": 10,
 
   "enabledManagers": [
     "github-actions",
