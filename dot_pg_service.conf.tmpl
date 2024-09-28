@@ -3,6 +3,8 @@
 {{ range $instance := (secretJSON "list" $instances) }}
 {{ $instance_keys := (secretJSON "list" (print $instances $instance)) }}
 {{ if has "databases/" $instance_keys }}
+
+# {{ $project }}{{ (trimSuffix "/" $instance) }}
 {{- $databases := (print $instances $instance "/databases/") }}
 {{ range $database := (secretJSON "list" $databases) }}
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
