@@ -1,12 +1,12 @@
-{{ range $project := (secretJSON "list" "zon/v1/gcp/") }}
+{{- range $project := (secretJSON "list" "zon/v1/gcp/") }}
 {{- $instances := (print "zon/v1/gcp/" $project "cloudsql/instances/") }}
-{{ range $instance := (secretJSON "list" $instances) }}
-{{ $instance_keys := (secretJSON "list" (print $instances $instance)) }}
-{{ if has "databases/" $instance_keys }}
+{{- range $instance := (secretJSON "list" $instances) }}
+{{- $instance_keys := (secretJSON "list" (print $instances $instance)) }}
+{{- if has "databases/" $instance_keys }}
 
 # {{ $project }}{{ (trimSuffix "/" $instance) }}
-{{- $databases := (print $instances $instance "/databases/") }}
-{{ range $database := (secretJSON "list" $databases) }}
+{{  $databases := (print $instances $instance "/databases/") }}
+{{- range $database := (secretJSON "list" $databases) }}
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
 {{- $key := (print $databases $database ) }}
 {{- $credentials := (secretJSON "get" $inst).data }}
@@ -23,8 +23,8 @@ sslmode=verify-ca
 sslcert={{ $prefix }}-client.crt
 sslkey={{ $prefix }}-client.key
 sslrootcert={{ $prefix }}-server-ca.pem
-{{ end }}
-{{ end }}
-{{ end }}
-{{ end }}
+{{  end }}
+{{- end }}
+{{- end }}
+{{- end }}
 {{- end }}
