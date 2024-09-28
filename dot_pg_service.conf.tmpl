@@ -17,10 +17,10 @@ user={{ $db.user }}
 password={{ $db.password }}
 dbname={{ $db.name }}
 sslmode=verify-ca
-{{ $prefix := (print (env "HOME") "/.pg_services/" (trimSuffix "/" $project) "-" $db.instance) -}}
-sslcert={{ $prefix }}-client.crt
-sslkey={{ $prefix }}-client.key
-sslrootcert={{ $prefix }}-server-ca.pem
+{{ $prefix := (print (env "HOME") "/.pg_services/" $project $db.instance) -}}
+sslcert={{ $prefix }}/client.crt
+sslkey={{ $prefix }}/client.key
+sslrootcert={{ $prefix }}/server-ca.pem
 {{  end }}
 {{- end }}
 {{- end }}

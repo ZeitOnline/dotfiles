@@ -1,14 +1,14 @@
 #!/bin/bash
 
 umask 077
-mkdir -p "$HOME/.pg_services"
 {{- range $project := (secretJSON "list" "zon/v1/gcp/") }}
 {{- $instances := (print "zon/v1/gcp/" $project "cloudsql/instances/") }}
 {{- range $instance := (secretJSON "list" $instances) }}
-{{- $base := (print (env "HOME") "/.pg_services/" (trimSuffix "/" $project) "-" (trimSuffix "/" $instance)) }}
+{{- $base := (print (env "HOME") "/.pg_services/" $project $instance) }}
 {{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
-echo '{{ $credentials.client_ca_cert_cert }}' > {{ $base }}-client.crt
-echo '{{ $credentials.client_ca_cert_private_key }}' > {{ $base }}-client.key
-echo '{{ $credentials.server_ca_cert_cert }}' > {{ $base }}-server-ca.pem
+mkdir -p {{ $base }}
+echo '{{ $credentials.client_ca_cert_cert }}' > {{ $base }}client.crt
+echo '{{ $credentials.client_ca_cert_private_key }}' > {{ $base }}client.key
+echo '{{ $credentials.server_ca_cert_cert }}' > {{ $base }}server-ca.pem
 {{- end }}
 {{- end }}
