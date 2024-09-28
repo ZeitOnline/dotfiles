@@ -1,14 +1,14 @@
 {{ range $project := list "zeitonline-main" }}
 {{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
-{{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
-{{ $instance_keys := (secretJSON "kv" "list" "-format=json" (print $instances $instance)) }}
+{{ range $instance := (secretJSON "list" $instances) }}
+{{ $instance_keys := (secretJSON "list" (print $instances $instance)) }}
 {{ if has "databases/" $instance_keys }}
 {{- $databases := (print $instances $instance "/databases/") }}
-{{ range $database := (secretJSON "kv" "list" "-format=json" $databases) }}
+{{ range $database := (secretJSON "list" $databases) }}
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
 {{- $key := (print $databases $database ) }}
-{{- $credentials := (secretJSON "kv" "get" "-format=json" $inst).data }}
-{{- $db := (secretJSON "kv" "get" "-format=json" $key).data }}
+{{- $credentials := (secretJSON "get" $inst).data }}
+{{- $db := (secretJSON "get" $key).data }}
 [{{ $db.name }}-{{ $credentials.environment }}]
 host={{ $credentials.private_dns }}
 port=5432

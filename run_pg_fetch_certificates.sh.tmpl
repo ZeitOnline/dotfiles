@@ -4,10 +4,10 @@ umask 077
 mkdir -p "$HOME/.pg_services"
 {{ range $project := list "zeitonline-main" }}
 {{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
-{{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
+{{ range $instance := (secretJSON "list" $instances) }}
 {{ $base := (print $project "-" (trimSuffix "/" $instance)) }}
 {{ $key := (print $instances $instance "instance-credentials" ) }}
-{{- $credentials := (secretJSON "kv" "get" "-format=json" $key).data }}
+{{- $credentials := (secretJSON "get" $key).data }}
 echo '{{ $credentials.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-client.crt
 echo '{{ $credentials.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $base }}-client.key
 echo '{{ $credentials.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-server-ca.pem
