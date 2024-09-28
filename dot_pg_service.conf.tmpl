@@ -7,10 +7,8 @@
 # {{ $project }}{{ (trimSuffix "/" $instance) }}
 {{  $databases := (print $instances $instance "/databases/") }}
 {{- range $database := (secretJSON "list" $databases) }}
-{{- $inst := (print $instances $instance "instance-credentials" ) }}
-{{- $key := (print $databases $database ) }}
-{{- $credentials := (secretJSON "get" $inst).data }}
-{{- $db := (secretJSON "get" $key).data }}
+{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
+{{- $db := (secretJSON "get" (print $databases $database)).data }}
 {{- if $db }}
 [{{ $db.name }}-{{ $credentials.environment }}]
 host={{ $credentials.private_dns }}
