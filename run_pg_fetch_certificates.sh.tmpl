@@ -7,8 +7,9 @@ mkdir -p "$HOME/.pg_services"
 {{ range $instance := (secretJSON "kv" "list" "-format=json" $instances) }}
 {{ $base := (print $project "-" (trimSuffix "/" $instance)) }}
 {{ $key := (print $instances $instance "instance-credentials" ) }}
-echo '{{ (vault $key).data.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-client.crt
-echo '{{ (vault $key).data.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $base }}-client.key
-echo '{{ (vault $key).data.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-server-ca.pem
+{{- $credentials := (secretJSON "kv" "get" "-format=json" $key).data }}
+echo '{{ $credentials.client_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-client.crt
+echo '{{ $credentials.client_ca_cert_private_key }}' > $HOME/.pg_services/{{ $base }}-client.key
+echo '{{ $credentials.server_ca_cert_cert }}' > $HOME/.pg_services/{{ $base }}-server-ca.pem
 {{ end }}
 {{ end }}

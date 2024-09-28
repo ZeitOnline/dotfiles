@@ -7,16 +7,19 @@
 {{ range $database := (secretJSON "kv" "list" "-format=json" $databases) }}
 {{- $inst := (print $instances $instance "instance-credentials" ) }}
 {{- $key := (print $databases $database ) }}
-[{{ (vault $key).data.name }}-{{ (vault $inst).data.environment }}]
-host={{ (vault $inst).data.private_dns }}
+{{- $credentials := (secretJSON "kv" "get" "-format=json" $inst).data }}
+{{- $db := (secretJSON "kv" "get" "-format=json" $key).data }}
+[{{ $db.name }}-{{ $credentials.environment }}]
+host={{ $credentials.private_dns }}
 port=5432
-user={{ (vault $key).data.user }}
-password={{ (vault $key).data.password }}
-dbname={{ (vault $key).data.name }}
+user={{ $db.user }}
+password={{ $db.password }}
+dbname={{ $db.name }}
 sslmode=verify-ca
-sslcert={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-client.crt
-sslkey={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-client.key
-sslrootcert={{ (env "HOME") }}/.pg_services/{{ $project }}-{{ (vault $key).data.instance }}-server-ca.pem
+{{ $prefix := (print (env "HOME") "/.pg_services/" $project "-" $db.instance) -}}
+sslcert={{ $prefix }}-client.crt
+sslkey={{ $prefix }}-client.key
+sslrootcert={{ $prefix }}-server-ca.pem
 {{ end }}
 {{ end }}
 {{ end }}
