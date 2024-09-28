@@ -1,5 +1,5 @@
-{{ range $project := list "zeitonline-main" }}
-{{- $instances := (print "zon/v1/gcp/" $project "/cloudsql/instances/") }}
+{{ range $project := (secretJSON "list" "zon/v1/gcp/") }}
+{{- $instances := (print "zon/v1/gcp/" $project "cloudsql/instances/") }}
 {{ range $instance := (secretJSON "list" $instances) }}
 {{ $instance_keys := (secretJSON "list" (print $instances $instance)) }}
 {{ if has "databases/" $instance_keys }}
@@ -9,6 +9,7 @@
 {{- $key := (print $databases $database ) }}
 {{- $credentials := (secretJSON "get" $inst).data }}
 {{- $db := (secretJSON "get" $key).data }}
+{{- if $db }}
 [{{ $db.name }}-{{ $credentials.environment }}]
 host={{ $credentials.private_dns }}
 port=5432
@@ -16,7 +17,7 @@ user={{ $db.user }}
 password={{ $db.password }}
 dbname={{ $db.name }}
 sslmode=verify-ca
-{{ $prefix := (print (env "HOME") "/.pg_services/" $project "-" $db.instance) -}}
+{{ $prefix := (print (env "HOME") "/.pg_services/" (trimSuffix "/" $project) "-" $db.instance) -}}
 sslcert={{ $prefix }}-client.crt
 sslkey={{ $prefix }}-client.key
 sslrootcert={{ $prefix }}-server-ca.pem
@@ -24,3 +25,4 @@ sslrootcert={{ $prefix }}-server-ca.pem
 {{ end }}
 {{ end }}
 {{ end }}
+{{- end }}
