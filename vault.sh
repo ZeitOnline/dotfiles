@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# this wrapper script is used to extract secrets from Vault
+# so that access errors don't stop the 'chezmoi' commands
+# this way we can loop through all available projects to
+# find database credentials for example
+
 command=${1}
 shift
 
