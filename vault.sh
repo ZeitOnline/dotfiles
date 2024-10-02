@@ -8,7 +8,8 @@ case $command in
         vault kv get -format=json $@ 2> /dev/null || echo 'null'
     ;;
     list)
-        vault kv list -format=json $@ 2> /dev/null | sed 's/^{}$/[]/'
+        output="$( vault kv list -format=json $@ 2> /dev/null | sed '/^{}$/d' )"
+        echo "${output:-[]}"
     ;;
     *)
         echo "Unrecognized command: $command"
