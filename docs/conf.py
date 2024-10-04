@@ -1,8 +1,7 @@
 project = 'dotfiles'
 copyright = 'ZEIT ONLINE'
 
-source_suffix = '.rst'
-master_doc = 'index'
+extensions = ["myst_parser"]
 
 html_theme = "zondocs_theme"
 html_theme_options = {
