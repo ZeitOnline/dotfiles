@@ -1,0 +1,47 @@
+default: true
+
+# MD004/ul-style : Unordered list style : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md004.md
+MD004:
+  # List style
+  style: "consistent"
+
+# MD007/ul-indent : Unordered list indentation : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md007.md
+MD007:
+  # Spaces for indent
+  indent: 2
+  # Whether to indent the first level of the list
+  start_indented: false
+  # Spaces for first level indent (when start_indented is set)
+  start_indent: 2
+
+# MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md013.md
+MD013: false
+
+# MD014/commands-show-output : Dollar signs used before commands without showing output : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md014.md
+MD014: true
+
+# MD024/no-duplicate-heading : Multiple headings with the same content : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md024.md
+MD024:
+  # Only check sibling headings
+  siblings_only: true
+
+# MD030/list-marker-space : Spaces after list markers : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md030.md
+MD030:
+  # Spaces for single-line unordered list items
+  ul_single: 1
+  # Spaces for single-line ordered list items
+  ol_single: 1
+  # Spaces for multi-line unordered list items
+  ul_multi: 1
+  # Spaces for multi-line ordered list items
+  ol_multi: 1
+
+# MD033/no-inline-html : Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md033.md
+MD033:
+  # Allowed elements
+  allowed_elements: ["br","div","iframe"] # for line breaks in table cells
+
+# MD046/code-block-style : Code block style : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md046.md
+MD046:
+  # Block style
+  style: "fenced"
