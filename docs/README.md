@@ -42,8 +42,7 @@ chezmoi apply
 mise install
 ```
 
-!!! note
-    `chezmoi apply` ggf. 2x ausführen, falls die Fehlermeldung `kv list -format=json cloudsql/databases: fork/exec : no such file or directory` erscheint.
+> **NOTE:** `chezmoi apply` ggf. 2x ausführen, falls die Fehlermeldung `kv list -format=json cloudsql/databases: fork/exec : no such file or directory` erscheint.
 
 ## Laufende Aktualisierungen
 
@@ -66,8 +65,7 @@ alias chezzon='chezmoi --source ~/.chezzon/repo --config ~/.chezzon/chezmoi.toml
 alias chezzon_init='chezmoi init git@github.com:ZeitOnline/dotfiles.git --source ~/.chezzon/repo --config-path ~/.chezzon/chezmoi.toml'
 ```
 
-!!! note
-    Die beiden Aliase lassen sich nicht kombinieren, da `chezmoi init` das Flag `--config-path` benötigt, das nicht identisch mit `--config` ist, welches von allen anderen `chezmoi` Kommandos genutzt wird.
+> **NOTE:** Die beiden Aliase lassen sich nicht kombinieren, da `chezmoi init` das Flag `--config-path` benötigt, das nicht identisch mit `--config` ist, welches von allen anderen `chezmoi` Kommandos genutzt wird.
 
 Die Initialisierung erfolgt dann mit `chezzon-init`, für alles weitere kann `chezzon` wie sonst `chezmoi` genutzt werden:
 
