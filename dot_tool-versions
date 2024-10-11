@@ -9,7 +9,7 @@ kustomize 5.4.2
 # renovate: datasource=github-releases depName=helm/helm
 helm 3.15.3
 # renovate: datasource=github-releases depName=opentofu/opentofu
-opentofu 1.8.2
+opentofu 1.8.3
 # renovate: datasource=custom.hashicorp depName=vault
 vault 1.17.3
 # renovate: datasource=github-releases depName=tilt-dev/tilt
