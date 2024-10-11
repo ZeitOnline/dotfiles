@@ -39,12 +39,6 @@
 
   "packageRules": [
     {
-      "description": "schedule asdf manager for maintenance day",
-      "matchManagers": ["regex"],
-      "schedule": ["before 5am on the first day of the month"],
-      "addLabels": ["maintenance-day"]
-    },
-    {
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchDepNames": ["kubernetes/kubernetes"],
