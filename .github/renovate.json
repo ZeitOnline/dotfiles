@@ -42,7 +42,7 @@
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchDepNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "<=1.29"
+      "allowedVersions": "<=1.30"
     },
     {
       "description": "Add label for terraform/grunt binary",
