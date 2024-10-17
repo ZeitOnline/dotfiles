@@ -1,5 +1,5 @@
 # renovate: datasource=github-tags depName=kubernetes/kubernetes
-kubectl 1.29.8
+kubectl 1.30.5
 # renovate: datasource=github-releases depName=gruntwork-io/terragrunt
 terragrunt 0.68.3
 # renovate: datasource=github-releases depName=fluxcd/flux2
