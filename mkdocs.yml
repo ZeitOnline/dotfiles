@@ -1,5 +1,5 @@
 INHERIT: /zon/common_config.yaml
-site_name: Shared Dotfiles Docs
+site_name: dotfiles
 repo_url: https://github.com/ZeitOnline/dotfiles
 
 nav:
