@@ -1,5 +1,3 @@
-README.md
-bin
-docs
+/docs
 /mkdocs.yml
 /vault.sh
