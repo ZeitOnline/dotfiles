@@ -9,7 +9,8 @@ Darüber hinaus werden einige (wenige) Konfigurationen vorgenommen, die Konventi
 ## Installation unter macOS
 
 ```shell
-brew install vault chezmoi mise
+brew install chezmoi mise
+mise install vault
 ```
 
 Nach Installation von mise, [activate mise](https://mise.jdx.dev/getting-started.html#_2a-activate-mise) beachten.
