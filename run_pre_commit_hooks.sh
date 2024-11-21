@@ -3,7 +3,7 @@
 # this will install the regular ("pre-commit") and "commit-msg" hooks
 # also see https://pre-commit.com/#pre-commit-init-templatedir
 
-which -s pre-commmit || exit 0
+type -p pre-commit > /dev/null || exit 0
 git config --global init.templateDir > /dev/null && exit 0
 
 git config --global init.templateDir ~/.config/git/templates
