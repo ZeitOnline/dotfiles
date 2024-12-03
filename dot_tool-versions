@@ -3,7 +3,7 @@ kubectl 1.30.5
 # renovate: datasource=github-releases depName=gruntwork-io/terragrunt
 terragrunt 0.69.3
 # renovate: datasource=github-releases depName=fluxcd/flux2
-flux2 2.3.0
+flux2 2.4.0
 # renovate: datasource=github-releases depName=kubernetes-sigs/kustomize extractVersion=^kustomize\/v(?<version>.+)$
 kustomize 5.4.2
 # renovate: datasource=github-releases depName=helm/helm
