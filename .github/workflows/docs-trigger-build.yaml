@@ -1,5 +1,4 @@
 name: Trigger docs main build
-
 on:
   push:
     branches:
@@ -8,13 +7,12 @@ on:
     paths:
       - docs/**
       - .github/workflows/docs-trigger-build.yaml
-
+      - mkdocs.yml
 jobs:
   trigger:
     name: Trigger
     runs-on: zon-ubuntu-general-dind
     if: contains(github.repository, 'ZeitOnline')
-
     steps:
       - name: Trigger Repository Dispatch in docs
         uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3
@@ -23,4 +21,3 @@ jobs:
           repository: ZeitOnline/docs
           event-type: module-commit
           client-payload: '{"repo": "${{ github.repository }}", "ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
-
