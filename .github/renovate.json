@@ -42,13 +42,21 @@
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchDepNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "<=1.30"
+      "allowedVersions": "<=1.31"
     },
     {
-      "description": "Add label for terraform/grunt binary",
-      "matchManagers": ["regex"],
-      "matchDepNames": ["hashicorp/terraform", "gruntwork-io/terragrunt"],
-      "addLabels": ["terraform-bin"]
+      "description": "Add label for tool binaries",
+      "matchManagers": [ "custom.regex" ],
+      "matchPackageNames": [
+        "fluxcd/flux2",
+        "gruntwork-io/terragrunt",
+        "hashicorp/vault",
+        "helm/helm",
+        "kubernetes-sigs/kustomize",
+        "kubernetes/kubernetes",
+        "opentofu/opentofu"
+      ],
+      "addLabels": [ "tool-binaries" ]
     }
   ]
 }
