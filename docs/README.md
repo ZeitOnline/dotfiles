@@ -1,10 +1,10 @@
 # Dotfiles für alle
 
 Dieses Repository enthält eine Integration von [Vault](https://www.vaultproject.io/) mit [chezmoi](https://www.chezmoi.io), einem "dotfile manager".
-Die Idee ist, für alle Entwickler einheitliche Credentials und Konfigurationen zu erzeugen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE Cluster zu ermöglichen.
+Die Idee ist, für alle Entwickler:innen einheitliche Credentials und Konfigurationen zu erzeugen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE-Cluster zu ermöglichen.
 Dazu werden zum einen in Vault gespeicherte Credentials automatisiert ausgelesen und/oder Skripte wie `gcloud` ausgeführt.
 
-Darüber hinaus werden einige (wenige) Konfigurationen vorgenommen, die Konventionen und best practices abbilden. Dabei wird aber nur so wenig wie möglich konfiguriert, um nicht die Vorlieben der Mitarbeiter unnötig zu überschreiben. Hier gilt: weniger ist mehr :)
+Darüber hinaus werden einige (wenige) Konfigurationen vorgenommen, die Konventionen und best practices abbilden. Dabei wird aber nur so wenig wie möglich konfiguriert, um nicht die Vorlieben der Mitarbeiter:innen unnötig zu überschreiben. Hier gilt: weniger ist mehr :)
 
 ## Installation unter macOS
 
@@ -14,7 +14,7 @@ mise install vault
 ```
 
 Nach Installation von mise, [activate mise](https://mise.jdx.dev/getting-started.html#_2a-activate-mise) beachten.
-Pfad entsprechend der Pfad zum brew Verzeichnis `/opt/homebrew/bin/`.
+Pfad entsprechend der Pfad zum brew-Verzeichnis `/opt/homebrew/bin/`.
 
 `mise` ist ein tool version manager.
 Es kann tools wie asdf, nvm, pyenv, rbenv, etc. ersetzen.
@@ -34,7 +34,7 @@ export VAULT_ADDR="https://vault.ops.zeit.de/"
 vault login -method=oidc
 ```
 
-Nicht erschrecken: der Vault Login läuft über den Browser. Im Anmeldeformular dann mit den eigenen AD credentials anmelden (`nachname` und *nicht* `vnachname`).
+Nicht erschrecken: der Vault-Login läuft über den Browser. Im Anmeldeformular dann mit den eigenen AD-Credentials anmelden (`nachname` und *nicht* `vnachname`).
 Das Fenster kann anschließend geschlossen werden und es geht weiter im Terminal:
 
 ```shell
@@ -68,7 +68,7 @@ alias chezzon_init='chezmoi init git@github.com:ZeitOnline/dotfiles.git --source
 
 > **NOTE:** Die beiden Aliase lassen sich nicht kombinieren, da `chezmoi init` das Flag `--config-path` benötigt, das nicht identisch mit `--config` ist, welches von allen anderen `chezmoi` Kommandos genutzt wird.
 
-Die Initialisierung erfolgt dann mit `chezzon-init`, für alles weitere kann `chezzon` wie sonst `chezmoi` genutzt werden:
+Die Initialisierung erfolgt dann mit `chezzon_init`, für alles weitere kann `chezzon` wie sonst `chezmoi` genutzt werden:
 
 ```shell
 chezzon_init
@@ -80,19 +80,19 @@ Damit wird das zon-dotfiles repo in `~/.chezzon/repo` initialisiert, das config 
 
 ## Was im Preis mit inbegriffen ist
 
-Aktuell wird vor allem folgendes verwaltet: Postgres Zugriff, GKE Cluster Zugriff, Tools durch `mise`, sowie ein paar sinnvolle, allgemeingültige Einstellungen für die fish shell.
+Aktuell wird vor allem folgendes verwaltet: Postgres-Zugriff, GKE-Cluster-Zugriff, Tools durch `mise`, sowie ein paar sinnvolle, allgemeingültige Einstellungen für die fish-Shell.
 
-### Postgres Services
+### Postgres-Services
 
-Die [Service Definitionen](https://www.postgresql.org/docs/12/libpq-pgservice.html) für unsere CloudSQL Datenbanken erlauben den SSL verschlüsselten Zugriff auf alle Datenbanken (Obacht! Inklusive Production!).
+Die [Service-Definitionen](https://www.postgresql.org/docs/12/libpq-pgservice.html) für unsere CloudSQL-Datenbanken erlauben den SSL-verschlüsselten Zugriff auf alle Datenbanken (Obacht! Inklusive Production!).
 
-Welche Datenbanken konfiguriert sind läßt sich so herausfinden:
+Welche Datenbanken konfiguriert sind, läßt sich so herausfinden:
 
 ```shell
 grep '^\[' .pg_service.conf
 ```
 
-Deren Namen kann man dann bei gängigen Postgresl Clients verwenden, bei `psql` z.B.:
+Deren Namen kann man dann bei gängigen Postgres-Clients verwenden, bei `psql` z.B.:
 
 ```bash
 $ psql service=quiz-production
@@ -106,9 +106,9 @@ Type "help" for help.
 quiz=> \q
 ```
 
-### GKE Clusterzugriff
+### GKE-Clusterzugriff
 
-Es werden lediglich die notwendigen `gcloud` Befehle ausgefuehrt (`gcloud` muss installiert sein).
+Es werden lediglich die notwendigen `gcloud`-Befehle ausgefuehrt (`gcloud` muss installiert sein).
 In Kurzform:
 
 ```shell
@@ -117,7 +117,7 @@ gcloud init gcloud auth login
 
 Der Effekt ist, dass in den  diversen `k8s/(staging|production)` Verzeichnissen `kubectl` und `k9s` funktionieren, sowie die `bin/deploy` Skripte, die k8s verwenden.
 
-### fish config
+### fish-Konfiguration
 
-Für fish Benutzer wird zudem die notwendige Einstellung der `VAULT_ADDR` und `KUBECONFIG` Umgebungsvariablen vorgenommen.
-Diese werden in einer dedizierten `conf.d/zon.fish` Datei verwaltet, um nicht die komplette fish config zu "kapern".
+Für fish-Nutzer:innen wird zudem die notwendige Einstellung der `VAULT_ADDR`- und `KUBECONFIG`-Umgebungsvariablen vorgenommen.
+Diese werden in einer dedizierten `conf.d/zon.fish`-Datei verwaltet, um nicht die komplette fish-Config zu "kapern".
