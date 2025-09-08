@@ -28,6 +28,13 @@ sudo snap install vault chezmoi
 ```
 
 ## Initialisierung
+Damit das `vault` command bekannt ist, muss mise einmal mitgeteilt werden dass dieses command benutzt werden soll:
+
+```shell
+mise use vault
+```
+
+Jetzt kann Vault initialisiert werden:
 
 ```shell
 export VAULT_ADDR="https://vault.ops.zeit.de/"
