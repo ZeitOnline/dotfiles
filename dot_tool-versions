@@ -14,6 +14,8 @@ opentofu 1.10.6
 vault 1.17.3
 # renovate: datasource=github-releases depName=tilt-dev/tilt
 tilt 0.33.20
+# renovate: datasource=docker depName=postgres versioning=docker
+postgres 17.0
 
 # tools used by ZeitOnline/ops-pre-commit
 
