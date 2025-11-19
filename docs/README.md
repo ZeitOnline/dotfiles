@@ -119,7 +119,8 @@ Es werden lediglich die notwendigen `gcloud`-Befehle ausgefuehrt (`gcloud` muss 
 In Kurzform:
 
 ```shell
-gcloud init gcloud auth login
+gcloud init
+gcloud auth login
 ```
 
 Der Effekt ist, dass in den  diversen `k8s/(staging|production)` Verzeichnissen `kubectl` und `k9s` funktionieren, sowie die `bin/deploy` Skripte, die k8s verwenden.
