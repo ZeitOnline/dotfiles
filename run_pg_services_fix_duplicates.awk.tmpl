@@ -14,7 +14,7 @@ FNR==NR && /^\[[^]]*\]$/ {
 
 # 1st pass: collect suffixes
 FNR==NR && /^host=/ {
-    if (match($0, /-pg[0-9]+-/)) {
+    if (match($0, /-pg[0-9]+-(rr-)?/)) {
         suffix[line] = substr($0, RSTART+3, RLENGTH-4)
     } else {
         suffix[line] = "13"
