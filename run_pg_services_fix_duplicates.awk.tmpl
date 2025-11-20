@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+set -e
+tmpfile=$(mktemp)
+awk '
+
+# 1. Neuer Sektions-Header gefunden
+/^\[.*\]$/ {
+    # Alte Sektion abschließen und ausgeben
+    if (header) {
+        print_section()
+    }
+
+    # Neue Sektion initialisieren
+    header = $0
+    body = ""
+    found_suffix = ""  # Variable für die gefundene Zahl/ID
+    
+    # Vorkommen zählen (für Duplikat-Check)
+    seen[header]++
+    next
+}
+
+# 2. Host-Zeile analysieren: Suche nach einer Zahl
+/^[[:space:]]*host=/ {
+    # match() sucht nach dem Muster.
+    # RSTART ist die Startposition, RLENGTH die Länge des Treffers.
+    # [0-9]+ bedeutet: Eine oder mehrere Ziffern.
+    if (match($0, /[0-9]+/)) {
+        found_suffix = substr($0, RSTART, RLENGTH)
+        
+        # OPTIONAL: Falls du z.B. "pg13" statt nur "13" willst, 
+        # ändere oben das Muster in: /[a-z]*[0-9]+/
+    }
+}
+
+# 3. Inhalt sammeln
+{
+    if (header) {
+        body = body $0 "\n"
+    } else {
+        print
+    }
+}
+
+# 4. Ende der Datei
+END {
+    if (header) {
+        print_section()
+    }
+}
+
+# Hilfsfunktion zur Ausgabe
+function print_section() {
+    # Nur ändern, wenn Header doppelt UND wir eine Zahl gefunden haben
+    if (seen[header] > 1 && found_suffix != "") {
+        # Hängt "-<Zahl>" an den Namen an.
+        # Aus [db] wird [db-13] (wenn 13 gefunden wurde)
+        sub(/\]$/, "-" found_suffix "]", header)
+    }
+    print header
+    printf "%s", body
+}
+
+' ~/.pg_service.conf > "$tmpfile"
+cp "$tmpfile" ~/.pg_service.conf
+rm "$tmpfile"

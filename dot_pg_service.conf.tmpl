@@ -9,7 +9,7 @@
 {{- range $database := (secretJSON "list" $databases) }}
 {{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
 {{- $db := (secretJSON "get" (print $databases $database)).data }}
-{{- if $db }}
+{{- if and $db (eq $db.name $db.user) }}
 [{{ $db.name }}-{{ $credentials.environment }}]
 host={{ $credentials.private_dns }}
 port=5432
