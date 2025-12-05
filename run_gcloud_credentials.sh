@@ -14,6 +14,9 @@ gcloud container clusters get-credentials staging --zone europe-west3-a --projec
 gcloud container clusters get-credentials devel --zone europe-west3-a --project zeitonline-main
 gcloud container clusters get-credentials ops-production --region europe-west3 --project zeitonline-main
 gcloud container clusters get-credentials main-general-23-01 --region europe-west3 --project zeitonline-main
+gcloud container clusters get-credentials main-general-23-01 --region europe-west3 --project zeitonline-main
+gcloud container clusters get-credentials main-staging-25-01 --region europe-west3 --project zeitonline-main
+gcloud container clusters get-credentials main-production-25-01 --region europe-west3 --project zeitonline-main
 
 # Fetch GCP Application Default Credentials like Terraform uses 'em
 if ! gcloud auth application-default print-access-token &> /dev/null
