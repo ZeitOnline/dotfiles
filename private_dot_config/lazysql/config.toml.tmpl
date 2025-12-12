@@ -1,0 +1,23 @@
+{{- range $project := (secretJSON "list" "zon/v1/gcp/") }}
+{{- $instances := (print "zon/v1/gcp/" $project "cloudsql/instances/") }}
+{{- range $instance := (secretJSON "list" $instances) }}
+{{- $instance_keys := (secretJSON "list" (print $instances $instance)) }}
+{{- if has "databases/" $instance_keys }}
+{{  $databases := (print $instances $instance "/databases/") }}
+{{- range $database := (secretJSON "list" $databases) }}
+{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
+{{- $db := (secretJSON "get" (print $databases $database)).data }}
+{{- if and $db (eq $db.name $db.user) }}
+{{- $cert_prefix := (print (env "HOME") "/.pg_services/" $project $db.instance) }}
+
+[[database]]
+Name = '{{ $db.name }}-{{ $credentials.environment }} ({{ $project }}{{ trimSuffix "/" $instance }})'
+Provider = 'postgres'
+DBName = '{{ $db.name }}'
+URL = 'postgres://{{ $db.user }}:{{ urlquery $db.password }}@{{ $credentials.private_dns }}:5432/{{ $db.name }}?sslmode=require&sslcert={{ $cert_prefix }}/client.crt&sslkey={{ $cert_prefix }}/client.key'
+ReadOnly = false
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
