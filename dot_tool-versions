@@ -7,7 +7,7 @@ flux2 2.6.1
 # renovate: datasource=github-releases depName=kubernetes-sigs/kustomize extractVersion=^kustomize\/v(?<version>.+)$
 kustomize 5.5.0
 # renovate: datasource=github-releases depName=helm/helm
-helm 3.15.3
+helm 3.20.0
 # renovate: datasource=github-releases depName=opentofu/opentofu
 opentofu 1.11.3
 # renovate: datasource=custom.hashicorp depName=vault
