@@ -14,6 +14,8 @@ opentofu 1.11.3
 vault 1.17.3
 # renovate: datasource=github-releases depName=tilt-dev/tilt
 tilt 0.33.20
+# renovate: datasource=github-releases depName=ZeitOnline/gke-auth-plugin
+github:ZeitOnline/gke-auth-plugin 1.0.4
 
 # tools used by ZeitOnline/ops-pre-commit
 
