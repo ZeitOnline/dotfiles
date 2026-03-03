@@ -42,7 +42,7 @@
       "description": "restrict kubectl updates",
       "matchManagers": ["regex"],
       "matchDepNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "<=1.32"
+      "allowedVersions": "<=1.34"
     },
     {
       "description": "Add label for tool binaries",
