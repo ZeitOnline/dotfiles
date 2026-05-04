@@ -14,7 +14,9 @@
 # ``run_gcloud_credentials.sh`` on every ``chezmoi apply`` and re-stamps the
 # alias contexts against whatever the current cluster names are.
 #
-# To add or remove environments / namespaces, edit the two variables below.
+# To add or remove environments, edit the ``ENV_*`` arrays below. The list of
+# namespaces per environment is discovered dynamically by querying each
+# cluster for namespaces that carry the ``zon.zeit.de/owner`` annotation.
 
 set -euo pipefail
 
@@ -60,69 +62,11 @@ ENV_CLUSTERS=(
   "gke_zeitonline-main_europe-west3_main-production-25-01"
 )
 
-# Namespaces that should get per-environment alias contexts.
-NAMESPACES=(
-  abo-frontend
-  account-server
-  bitpoll
-  briefkasten
-  comments
-  comments-chcker
-  content-storage-api
-  content-storage-backup
-  contenthub
-  digitalabo
-  digitalabo-medien
-  document-storage
-  dpv-gateway
-  entitlements
-  free-nemo
-  freebies
-  friedbert
-  jeffrey-search
-  keycloak
-  kickerticker
-  kiosk-delivery
-  kuendigungsstrecke
-  loeschlistenmanager
-  login
-  mailmaker
-  member
-  merkl
-  nemo
-  newsletter
-  nlmanager
-  offer-manager
-  orders
-  piano-integration-service
-  plan-d
-  printplus
-  publisher
-  reference-project
-  searchtrends
-  sorting-hat
-  spiele-backoffice
-  spiele-base-ingress
-  spiele-eckchen
-  spiele-hangman
-  spiele-hashi
-  spiele-quiz
-  spiele-spelling-bee
-  spiele-sudoku
-  spiele-umdieecke
-  spiele-wortgeflecht
-  spiele-wortiger
-  summy
-  user-activity-dashboard
-  utenseal
-  vivi
-  wally
-  www-gone
-  zeit-kontext
-  zeitde-apex
-  zoca
-  zuender
-)
+# Annotation key used to identify namespaces that belong to a team and should
+# get an alias context. Namespaces without this annotation (kube-system,
+# default, gatekeeper-system, ...) are skipped.
+OWNER_ANNOTATION="zon.zeit.de/owner"
+
 
 # ---------------------------------------------------------------------------
 # Sanity checks
@@ -130,6 +74,11 @@ NAMESPACES=(
 
 if ! command -v kubectl >/dev/null 2>&1; then
   echo "kubectl not found in PATH; skipping namespace context generation." >&2
+  exit 0
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "jq not found in PATH; skipping namespace context generation." >&2
   exit 0
 fi
 
@@ -164,12 +113,30 @@ for i in "${!ENV_NAMES[@]}"; do
     continue
   fi
 
-  for ns in "${NAMESPACES[@]}"; do
+  # Discover namespaces in this cluster that carry the owner annotation.
+  # We query the *main* kubeconfig (the alias file we're writing into has no
+  # cluster/user definitions of its own).
+  if ! namespaces_json="$(KUBECONFIG="$MAIN_KUBECONFIG" kubectl --context "$cluster" get namespaces -o json 2>/dev/null)"; then
+    echo "warning: failed to list namespaces for env '$env' (context '$cluster'); skipping." >&2
+    continue
+  fi
+
+  namespaces=$(jq -r --arg ann "$OWNER_ANNOTATION" \
+    '.items[] | select(.metadata.annotations[$ann] != null) | .metadata.name' \
+    <<<"$namespaces_json")
+
+  if [[ -z "$namespaces" ]]; then
+    echo "warning: no annotated namespaces found in env '$env'." >&2
+    continue
+  fi
+
+  while IFS= read -r ns; do
+    [[ -z "$ns" ]] && continue
     alias_name="${ns}-${env}"
     kubectl config set-context "$alias_name" \
       --cluster="$cluster" \
       --user="$cluster" \
       --namespace="$ns" \
       >/dev/null
-  done
+  done <<<"$namespaces"
 done
