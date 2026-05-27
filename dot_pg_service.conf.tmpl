@@ -21,6 +21,7 @@ sslmode=verify-ca
 sslcert={{ $prefix }}/client.crt
 sslkey={{ $prefix }}/client.key
 sslrootcert={{ $prefix }}/server-ca.pem
+options=--default_transaction_read_only=on
 {{  end }}
 {{- end }}
 {{- end }}
