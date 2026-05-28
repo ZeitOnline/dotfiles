@@ -113,6 +113,28 @@ Type "help" for help.
 quiz=> \q
 ```
 
+Alle Verbindungen sind standardmäßig **read-only** (`default_transaction_read_only=on`), um versehentliche Schreibzugriffe – insbesondere auf Production – zu vermeiden.
+
+Um innerhalb einer Session doch schreibend zuzugreifen, kann die Einstellung überschrieben werden:
+
+```sql
+SET default_transaction_read_only = off;
+```
+
+Oder für eine einzelne Transaktion:
+
+```sql
+BEGIN READ WRITE;
+-- DML-Statements hier
+COMMIT;
+```
+
+Alternativ lässt sich die Option direkt beim Verbindungsaufbau übergeben:
+
+```bash
+psql "service=quiz-production options=--default_transaction_read_only=off"
+```
+
 ### GKE-Clusterzugriff
 
 Es werden lediglich die notwendigen `gcloud`-Befehle ausgefuehrt (`gcloud` muss installiert sein).
