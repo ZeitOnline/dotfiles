@@ -39,12 +39,6 @@
 
   "packageRules": [
     {
-      "description": "restrict kubectl updates",
-      "matchManagers": ["regex"],
-      "matchDepNames": ["kubernetes/kubernetes"],
-      "allowedVersions": "<=1.34"
-    },
-    {
       "description": "Add label for tool binaries",
       "matchManagers": [ "custom.regex" ],
       "matchPackageNames": [
