@@ -5,6 +5,15 @@
 # this way we can loop through all available projects to
 # find database credentials for example
 
+_sentinel="${TMPDIR:-/tmp}/vault-auth-check.${PPID}"
+if [[ ! -f "$_sentinel" ]]; then
+    if ! vault token lookup > /dev/null 2>&1; then
+        echo "vault: not authenticated — run 'vault login' first" >&2
+        exit 1
+    fi
+    touch "$_sentinel"
+fi
+
 command=${1}
 shift
 
