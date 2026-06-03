@@ -18,7 +18,7 @@ tilt 0.37.3
 # tools used by ZeitOnline/ops-pre-commit
 
 # renovate: datasource=github-releases depName=terraform-linters/tflint
-tflint 0.61.0
+tflint 0.63.1
 # renovate: datasource=github-releases depName=terraform-docs/terraform-docs
 terraform-docs 0.21.0
 # renovate: datasource=github-releases depName=gitleaks/gitleaks
