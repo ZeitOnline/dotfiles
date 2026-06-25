@@ -5,17 +5,19 @@
 {{- if has "databases/" $instance_keys }}
 {{  $databases := (print $instances $instance "/databases/") }}
 {{- range $database := (secretJSON "list" $databases) }}
-{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
+{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")) }}
+{{- if and $credentials $credentials.data }}
 {{- $db := (secretJSON "get" (print $databases $database)).data }}
 {{- if and $db (eq $db.name $db.user) }}
 {{- $cert_prefix := (print (env "HOME") "/.pg_services/" $project $db.instance) }}
 
 [[database]]
-Name = '{{ $db.name }}-{{ $credentials.environment }} ({{ $project }}{{ trimSuffix "/" $instance }})'
+Name = '{{ $db.name }}-{{ $credentials.data.environment }} ({{ $project }}{{ trimSuffix "/" $instance }})'
 Provider = 'postgres'
 DBName = '{{ $db.name }}'
-URL = 'postgres://{{ $db.user }}:{{ urlquery $db.password }}@{{ $credentials.private_dns }}:5432/{{ $db.name }}?sslmode=require&sslcert={{ $cert_prefix }}/client.crt&sslkey={{ $cert_prefix }}/client.key'
+URL = 'postgres://{{ $db.user }}:{{ urlquery $db.password }}@{{ $credentials.data.private_dns }}:5432/{{ $db.name }}?sslmode=require&sslcert={{ $cert_prefix }}/client.crt&sslkey={{ $cert_prefix }}/client.key'
 ReadOnly = false
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

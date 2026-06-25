@@ -7,11 +7,12 @@
 # {{ $project }}{{ (trimSuffix "/" $instance) }}
 {{  $databases := (print $instances $instance "/databases/") }}
 {{- range $database := (secretJSON "list" $databases) }}
-{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
+{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")) }}
+{{- if and $credentials $credentials.data }}
 {{- $db := (secretJSON "get" (print $databases $database)).data }}
 {{- if and $db (eq $db.name $db.user) }}
-[{{ $db.name }}-{{ $credentials.environment }}]
-host={{ $credentials.private_dns }}
+[{{ $db.name }}-{{ $credentials.data.environment }}]
+host={{ $credentials.data.private_dns }}
 port=5432
 user={{ $db.user }}
 password={{ $db.password }}
@@ -23,6 +24,7 @@ sslkey={{ $prefix }}/client.key
 sslrootcert={{ $prefix }}/server-ca.pem
 options=--default_transaction_read_only=on
 {{  end }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

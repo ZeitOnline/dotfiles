@@ -5,10 +5,12 @@ umask 077
 {{- $instances := (print "zon/v1/gcp/" $project "cloudsql/instances/") }}
 {{- range $instance := (secretJSON "list" $instances) }}
 {{- $base := (print (env "HOME") "/.pg_services/" $project $instance) }}
-{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")).data }}
+{{- $credentials := (secretJSON "get" (print $instances $instance "instance-credentials")) }}
+{{- if and $credentials $credentials.data }}
 mkdir -p {{ $base }}
-echo '{{ $credentials.client_ca_cert_cert }}' > {{ $base }}client.crt
-echo '{{ $credentials.client_ca_cert_private_key }}' > {{ $base }}client.key
-echo '{{ $credentials.server_ca_cert_cert }}' > {{ $base }}server-ca.pem
+echo '{{ $credentials.data.client_ca_cert_cert }}' > {{ $base }}client.crt
+echo '{{ $credentials.data.client_ca_cert_private_key }}' > {{ $base }}client.key
+echo '{{ $credentials.data.server_ca_cert_cert }}' > {{ $base }}server-ca.pem
+{{- end }}
 {{- end }}
 {{- end }}
