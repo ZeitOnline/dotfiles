@@ -13,7 +13,7 @@ opentofu 1.12.1
 # renovate: datasource=custom.hashicorp depName=vault
 vault 1.17.3
 # renovate: datasource=github-releases depName=tilt-dev/tilt
-tilt 0.37.3
+tilt 0.37.5
 
 # tools used by ZeitOnline/ops-pre-commit
 
