@@ -2,6 +2,11 @@
 
 set -e
 services=~/.pg_service.conf
+
+if [ ! -f "$services" ]; then
+    exit 0
+fi
+
 tmpfile=$(mktemp)
 awk '
 
