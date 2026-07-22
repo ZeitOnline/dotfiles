@@ -147,6 +147,29 @@ gcloud auth login
 
 Der Effekt ist, dass in den  diversen `k8s/(staging|production)` Verzeichnissen `kubectl` und `k9s` funktionieren, sowie die `bin/deploy` Skripte, die k8s verwenden.
 
+### GKE Artifact registry authentication
+
+Chezzon konfiguriert `uv` mit `keyring-provider = "subprocess"` um sich bei Bedarf transparent bei unserer Artifact Registry anzumelden (da wir für Python Projekte grundsätzlich unsere eigene Registry verwenden statt der offiziellen).
+
+Das bedeutet, dass erst wenn `uv` auf die Registry zugreifen will ein Token-Refresh getriggert wird - der dann zusätzlich global gecached wird.
+
+Damit das funktioniert müssen zwei Vorraussetzungen gegeben sein:
+
+1. in dem Projekt muss die url folgendermassen in `pyproject.toml` definiert sein (mit Nutzername aber ohne Passwort in der URL):
+
+```
+[[tool.uv.index]]
+name = "pypi-zon"
+url = "https://oauth2accesstoken@europe-west3-python.pkg.dev/zeitonline-engineering/pypi-zon/simple/"
+```
+
+2. im `.envrc` muss der Helper eingebunden werden:
+
+```
+source_env ~/.config/direnv/gcloud.sh
+use gcloud_registry
+```
+
 ### fish-Konfiguration
 
 Für fish-Nutzer:innen wird zudem die notwendige Einstellung der `VAULT_ADDR`- und `KUBECONFIG`-Umgebungsvariablen vorgenommen.

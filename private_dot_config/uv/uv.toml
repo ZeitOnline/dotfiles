@@ -1,0 +1,3 @@
+# Fetch private-index credentials lazily via the system keyring
+# (keyrings.google-artifactregistry-auth), instead of an eagerly-exported token.
+keyring-provider = "subprocess"
