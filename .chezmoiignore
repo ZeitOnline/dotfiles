@@ -1,4 +1,4 @@
-/bin
-/docs
-/mkdocs.yml
-/vault.sh
+bin
+docs
+mkdocs.yml
+vault.sh
