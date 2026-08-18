@@ -1,6 +1,6 @@
 # Dotfiles für alle
 
-Dieses Repository enthält eine Integration von [Vault](https://www.vaultproject.io/) mit [chezmoi](https://www.chezmoi.io), einem "dotfile manager".
+Das [Dotfiles-Repository](https://github.com/ZeitOnline/dotfiles) enthält eine Integration von [Vault](https://www.vaultproject.io/) mit [chezmoi](https://www.chezmoi.io), einem "dotfile manager".
 Die Idee ist, für alle Entwickler:innen einheitliche Credentials und Konfigurationen zu erzeugen, um so zum Beispiel den Zugriff auf unsere Datenbanken oder GKE-Cluster zu ermöglichen.
 Dazu werden zum einen in Vault gespeicherte Credentials automatisiert ausgelesen und/oder Skripte wie `gcloud` ausgeführt.
 
@@ -13,11 +13,14 @@ brew install chezmoi mise
 mise install vault
 ```
 
-Nach Installation von mise, [activate mise](https://mise.jdx.dev/getting-started.html#_2a-activate-mise) beachten.
-Pfad entsprechend der Pfad zum brew-Verzeichnis `/opt/homebrew/bin/`.
-
 `mise` ist ein tool version manager.
 Es kann tools wie asdf, nvm, pyenv, rbenv, etc. ersetzen.
+
+Nach Installation von mise muss das Tool noch aktiviert werden. Dafür muss 
+```shell
+eval "$(/opt/homebrew/bin/mise activate bash)"
+```
+in die `.bashrc` eingefügt werden. Weitere Informationen sowie die Varianten für andere Shells sind [hier](https://mise.jdx.dev/getting-started.html#_2a-activate-mise) zu finden.
 
 ## Installation unter debian/ubuntu
 
