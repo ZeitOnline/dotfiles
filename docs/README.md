@@ -20,7 +20,7 @@ Nach Installation von mise muss das Tool noch aktiviert werden. Dafür muss
 ```shell
 eval "$(/opt/homebrew/bin/mise activate bash)"
 ```
-in die `.bashrc` eingefügt werden. Weitere Informationen sowie die Varianten für andere Shells sind [hier](https://mise.jdx.dev/getting-started.html#_2a-activate-mise) zu finden.
+in die `.bashrc` eingefügt werden. Weitere Informationen sowie die Varianten für andere Shells sind [in der Dokumentation](https://mise.jdx.dev/getting-started.html#activate-mise) zu finden.
 
 ## Installation unter debian/ubuntu
 
