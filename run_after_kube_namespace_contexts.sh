@@ -57,7 +57,7 @@ ENV_NAMES=(
   production
 )
 ENV_CLUSTERS=(
-  "gke_zeitonline-main_europe-west3-a_devel"
+  "gke_zeitonline-main_europe-west3_main-devel-26-01"
   "gke_zeitonline-main_europe-west3_main-staging-25-01"
   "gke_zeitonline-main_europe-west3_main-production-25-01"
 )
