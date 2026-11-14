@@ -11,7 +11,7 @@ helm 4.1.3
 # renovate: datasource=github-releases depName=opentofu/opentofu
 opentofu 1.13.2
 # renovate: datasource=custom.hashicorp depName=vault
-vault 2.2.1
+vault 2.2.2
 # renovate: datasource=github-releases depName=tilt-dev/tilt
 tilt 0.37.3
 
